@@ -1,5 +1,5 @@
 # Описание docker-compose
-* здесь сделан упор на docker-compose*
+*здесь сделан упор на docker-compose*
 Написан docker-compose выполняющий следующее:
 1. Создается 3 контейнера nginx1 nginx2 grafana
 2. Nginx1 прокидывается через порт 8001 на Grafana
