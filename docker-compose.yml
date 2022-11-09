@@ -1,0 +1,50 @@
+version: '3'
+
+services: 
+  nginx1:
+    restart: always
+    image: nginx:latest
+    volumes:
+      - config23:/etc/nginx/conf.d:ro
+    networks:
+      - my_net
+    ports:
+      - "8001:8000"
+
+  nginx2:
+    restart: always
+    image: nginx:latest
+    volumes:
+      - config23:/etc/nginx/conf.d:ro
+    networks:
+      - bridge
+    depends_on:
+      - nginx1
+    ports:
+      - "8002:8000"
+
+  grafana: 
+    restart: always
+    image: grafana/grafana
+    networks:
+      - my_net
+      - bridge 
+    expose:
+      - "8001"
+      - "8002"
+      - "3000"
+    depends_on: 
+      - nginx1
+      - nginx2
+
+networks:
+  my_net:
+  bridge:
+
+volumes:
+  config23:
+    driver: local
+    driver_opts:
+      type: 'none'
+      device: $PWD/config
+      o: 'bind'
